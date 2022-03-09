@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/ic_planning"
+        android:enabled="true"
+        android:icon="@drawable/ic_planning"
+        android:title="계획"
+        app:showAsAction="always">
+    </item>
+    <item
+        android:id="@+id/ic_repository"
+        android:enabled="true"
+        android:icon="@drawable/ic_repository"
+        android:title="보관소"
+        app:showAsAction="always">
+    </item>
+    <item
+        android:id="@+id/ic_profile"
+        android:enabled="true"
+        android:icon="@drawable/ic_profile"
+        android:title="프로필"
+        app:showAsAction="always">
+    </item>
+<!--    app:showAsAction="always" : 항상 보이게 표시-->
+<!--    never : 항상 overflow에 표시-->
+<!--    ifRoom : 액션바에 공간이 있을 경우 표시-->
+<!--    withText : 액션바에 아이콘과 텍스트 함께 표시-->
+</menu>
