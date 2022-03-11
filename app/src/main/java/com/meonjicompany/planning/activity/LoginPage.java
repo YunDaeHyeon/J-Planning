@@ -96,7 +96,7 @@ public class LoginPage extends AppCompatActivity {
                     // 로그아웃된 상태의 레이아웃
                 }
                 return null;
-            }
+            }//ㄴ
         });
     }
 }
