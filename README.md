@@ -10,6 +10,31 @@ J에게
 - Laguage : Java
 - Minimun SDK : API 24 : Android 7.0 (Nougat)  
 
+# 22년 3월 11일 오후 2시 16분 기준 패키지 구조
+```console
+C:.
+└─com
+    └─meonjicompany
+        └─planning
+            ├─activity
+            │      IndexPage.java
+            │      LoginPage.java
+            │
+            ├─adapter
+            │      PlanningCardViewAdapter.java
+            │
+            ├─DTO
+            │      PlanningItemDTO.java
+            │
+            ├─fragment
+            │      PlanFragment.java
+            │      ProfileFragment.java
+            │      RepositoryFragment.java
+            │
+            └─kakao
+                    KakaoAPIConnection.java
+```
+
 # 브랜치 만들기
 ```console
 git checkout {브랜치} : 브랜치 이동

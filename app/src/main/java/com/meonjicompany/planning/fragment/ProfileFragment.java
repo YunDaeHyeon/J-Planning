@@ -1,5 +1,4 @@
-package com.meonjicompany.planning;
-
+package com.meonjicompany.planning.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -18,6 +17,9 @@ import com.bumptech.glide.Glide;
 import com.kakao.sdk.auth.model.OAuthToken;
 import com.kakao.sdk.user.UserApiClient;
 import com.kakao.sdk.user.model.User;
+import com.meonjicompany.planning.R;
+import com.meonjicompany.planning.activity.IndexPage;
+import com.meonjicompany.planning.activity.LoginPage;
 
 import org.w3c.dom.Text;
 
@@ -27,10 +29,10 @@ import kotlin.jvm.functions.Function2;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link MyProfile#newInstance} factory method to
+ * Use the {@link com.meonjicompany.planning.fragment.ProfileFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MyProfile extends Fragment implements View.OnClickListener{
+public class ProfileFragment extends Fragment implements View.OnClickListener{
     private Button logout;
     private TextView user_nickname, user_email;
     private ImageView user_profile_image;
@@ -43,7 +45,7 @@ public class MyProfile extends Fragment implements View.OnClickListener{
     private String mParam1;
     private String mParam2;
 
-    public MyProfile() {
+    public ProfileFragment() {
         // Required empty public constructor
     }
 
@@ -56,8 +58,8 @@ public class MyProfile extends Fragment implements View.OnClickListener{
      * @return A new instance of fragment MyProfile.
      */
     // TODO: Rename and change types and number of parameters
-    public static MyProfile newInstance(String param1, String param2) {
-        MyProfile fragment = new MyProfile();
+    public static com.meonjicompany.planning.fragment.ProfileFragment newInstance(String param1, String param2) {
+        com.meonjicompany.planning.fragment.ProfileFragment fragment = new com.meonjicompany.planning.fragment.ProfileFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -133,7 +135,7 @@ public class MyProfile extends Fragment implements View.OnClickListener{
                     @Override
                     public Unit invoke(Throwable throwable) {
                         Log.d("로그아웃 ","로그아웃 버튼 클릭함");
-                        Intent intent = new Intent(getActivity(),LoginActivity.class);
+                        Intent intent = new Intent(getActivity(), LoginPage.class);
                         startActivity(intent);
                         Toast.makeText(getActivity(),"로그아웃 되었습니다.",Toast.LENGTH_SHORT).show();
                         return null;

@@ -1,58 +1,49 @@
-package com.meonjicompany.planning;
+package com.meonjicompany.planning.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.os.Bundle;
-import android.util.Base64;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 
 import com.google.android.material.navigation.NavigationBarView;
 import com.kakao.sdk.auth.model.OAuthToken;
-import com.kakao.sdk.user.UserApiClient;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import com.meonjicompany.planning.R;
+import com.meonjicompany.planning.fragment.PlanFragment;
+import com.meonjicompany.planning.fragment.ProfileFragment;
+import com.meonjicompany.planning.fragment.RepositoryFragment;
 
 import kotlin.Unit;
-import kotlin.jvm.functions.Function1;
 import kotlin.jvm.functions.Function2;
 
-public class MainActivity extends AppCompatActivity {
-    MyProfile myProfile;
-    Planning planning;
-    Repository repository;
+public class IndexPage extends AppCompatActivity {
+    PlanFragment planFragment; // 계획 프래그먼트 객체
+    RepositoryFragment repositoryFragment; // 보관소 프래그먼트 객체
+    ProfileFragment profileFragment; // 프로필 프래그먼트 객체
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        myProfile = new MyProfile();
-        planning = new Planning();
-        repository = new Repository();
+        planFragment = new PlanFragment();
+        repositoryFragment = new RepositoryFragment();
+        profileFragment = new ProfileFragment();
 
-        // 프래그먼트를 액티비티에 올리기 ( 초기화면 설정 - 계획(planning) )
-        getSupportFragmentManager().beginTransaction().replace(R.id.containers,planning).commit();
+        // 프래그먼트를 액티비티에 올리기 ( 초기화면 설정 - 계획(planFragment) )
+        getSupportFragmentManager().beginTransaction().replace(R.id.containers,planFragment).commit();
         NavigationBarView navigationBarView = findViewById(R.id.bottom_navigationview);
         navigationBarView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch(item.getItemId()){
                     case R.id.ic_repository: // 보관소 프래그먼트
-                        getSupportFragmentManager().beginTransaction().replace(R.id.containers,repository).commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.containers,repositoryFragment).commit();
                         return true;
                     case R.id.ic_planning: // 계획 프래그먼트
-                        getSupportFragmentManager().beginTransaction().replace(R.id.containers,planning).commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.containers,planFragment).commit();
                         return true;
                     case R.id.ic_profile: // 프로필 프래그먼트
-                        getSupportFragmentManager().beginTransaction().replace(R.id.containers,myProfile).commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.containers,profileFragment).commit();
                         return true;
                 }
                 return false;

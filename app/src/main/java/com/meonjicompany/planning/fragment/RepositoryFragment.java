@@ -1,5 +1,4 @@
-package com.meonjicompany.planning;
-
+package com.meonjicompany.planning.fragment;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -8,12 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.meonjicompany.planning.R;
+
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link Repository#newInstance} factory method to
+ * Use the {@link com.meonjicompany.planning.fragment.RepositoryFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Repository extends Fragment {
+public class RepositoryFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,21 +25,21 @@ public class Repository extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public Repository() {
+    public RepositoryFragment() {
         // Required empty public constructor
     }
 
     /**
      * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
+     * this fragment using the provided parameters.4
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
      * @return A new instance of fragment Repository.
      */
     // TODO: Rename and change types and number of parameters
-    public static Repository newInstance(String param1, String param2) {
-        Repository fragment = new Repository();
+    public static com.meonjicompany.planning.fragment.RepositoryFragment newInstance(String param1, String param2) {
+        com.meonjicompany.planning.fragment.RepositoryFragment fragment = new com.meonjicompany.planning.fragment.RepositoryFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);

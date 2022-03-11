@@ -1,10 +1,10 @@
-package com.meonjicompany.planning;
+package com.meonjicompany.planning.kakao;
 
 import android.app.Application;
 
 import com.kakao.sdk.common.KakaoSdk;
 
-public class KakaoApplication extends Application {
+public class KakaoAPIConnection extends Application {
     @Override
     public void onCreate() {
         super.onCreate();

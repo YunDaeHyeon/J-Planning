@@ -1,25 +1,22 @@
-package com.meonjicompany.planning;
-
+package com.meonjicompany.planning.activity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.kakao.sdk.auth.model.OAuthToken;
 import com.kakao.sdk.user.UserApiClient;
 import com.kakao.sdk.user.model.User;
+import com.meonjicompany.planning.R;
 
 import kotlin.Unit;
-import kotlin.jvm.functions.Function1;
 import kotlin.jvm.functions.Function2;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginPage extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private View loginButton, logoutButton;
     private TextView nickName;
@@ -38,7 +35,7 @@ public class LoginActivity extends AppCompatActivity {
                 // 이때 토큰이 전달이 되면 로그인이 성공한 것이고 토큰이 전달되지 않았다면 로그인 실패
                 // 로그인 버튼을 클릭할 때 로그인 성공 시
                 if(oAuthToken != null) {
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    Intent intent = new Intent(com.meonjicompany.planning.activity.LoginPage.this, IndexPage.class);
                     startActivity(intent);
                     Toast.makeText(getApplicationContext(),"로그인 되었습니다.",Toast.LENGTH_SHORT).show();
                 }
@@ -57,10 +54,10 @@ public class LoginActivity extends AppCompatActivity {
                 // 만약, 카카오톡이 설치되어 있으면 카카오톡 어플 연동해서 로그인
                 // 만약, 카카오톡이 설치되어 있지 않으면 웹에서 로그인 진행
                 // 로그인이 되거나 오류가 발생하면 Callback 함수 호출
-                if(UserApiClient.getInstance().isKakaoTalkLoginAvailable(LoginActivity.this)) {
-                    UserApiClient.getInstance().loginWithKakaoTalk(LoginActivity.this, callback);
+                if(UserApiClient.getInstance().isKakaoTalkLoginAvailable(com.meonjicompany.planning.activity.LoginPage.this)) {
+                    UserApiClient.getInstance().loginWithKakaoTalk(com.meonjicompany.planning.activity.LoginPage.this, callback);
                 }else {
-                    UserApiClient.getInstance().loginWithKakaoAccount(LoginActivity.this, callback);
+                    UserApiClient.getInstance().loginWithKakaoAccount(com.meonjicompany.planning.activity.LoginPage.this, callback);
                 }
             }
         });
@@ -83,7 +80,7 @@ public class LoginActivity extends AppCompatActivity {
 //                    Log.d(TAG,"invoke: gerder : " + user.getKakaoAccount().getGender());
 //                    // 유저의 어카운트 정보에 나이
 //                    Log.d(TAG,"invoke: age : " + user.getKakaoAccount().getAgeRange());
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    Intent intent = new Intent(com.meonjicompany.planning.activity.LoginPage.this, IndexPage.class);
                     startActivity(intent);
                     // 토스트메세지 전송
                     Toast.makeText(getApplicationContext(),"자동 로그인 되었습니다.",Toast.LENGTH_SHORT).show();

@@ -1,11 +1,11 @@
-package com.meonjicompany.planning;
+package com.meonjicompany.planning.DTO;
 
-public class PlanningItem {
+public class PlanningItemDTO {
     private String date;
     private String title;
     private String contents;
 
-    public PlanningItem(String date, String title, String contents) {
+    public PlanningItemDTO(String date, String title, String contents) {
         this.date = date;
         this.title = title;
         this.contents = contents;

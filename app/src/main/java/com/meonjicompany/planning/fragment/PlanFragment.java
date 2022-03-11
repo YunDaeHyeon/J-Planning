@@ -1,7 +1,5 @@
-package com.meonjicompany.planning;
-
+package com.meonjicompany.planning.fragment;
 import android.app.DatePickerDialog;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -11,8 +9,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
+
+import com.meonjicompany.planning.DTO.PlanningItemDTO;
+import com.meonjicompany.planning.R;
+import com.meonjicompany.planning.adapter.PlanningCardViewAdapter;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -20,17 +23,15 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link Planning#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class Planning extends Fragment implements View.OnClickListener{
+public class PlanFragment extends Fragment implements View.OnClickListener{
     TextView selectDate;
+    Button add_plan_item_btn;
     // 리사이클러뷰 객체 생성
     RecyclerView recyclerView;
+    // 리사이클러뷰 어뎁터 객체 생성
+    PlanningCardViewAdapter planningCardViewAdapter;
     // 라사이클러뷰에 뿌려줄 DTO 객체 생성
-    ArrayList<PlanningItem> planningItems;
+    ArrayList<PlanningItemDTO> planningItems;
     // 캘린더 객체 생성
     Calendar calendar = Calendar.getInstance();
     long now = System.currentTimeMillis();
@@ -57,7 +58,7 @@ public class Planning extends Fragment implements View.OnClickListener{
     private String mParam1;
     private String mParam2;
 
-    public Planning() {
+    public PlanFragment() {
         // Required empty public constructor
     }
 
@@ -70,8 +71,8 @@ public class Planning extends Fragment implements View.OnClickListener{
      * @return A new instance of fragment Planning.
      */
     // TODO: Rename and change types and number of parameters
-    public static Planning newInstance(String param1, String param2) {
-        Planning fragment = new Planning();
+    public static com.meonjicompany.planning.fragment.PlanFragment newInstance(String param1, String param2) {
+        com.meonjicompany.planning.fragment.PlanFragment fragment = new com.meonjicompany.planning.fragment.PlanFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -94,24 +95,20 @@ public class Planning extends Fragment implements View.OnClickListener{
         // Inflate the layout for this fragment
         ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_planning,container,false);
         selectDate = (TextView) rootView.findViewById(R.id.selectDate);
+        add_plan_item_btn = (Button) rootView.findViewById(R.id.add_plan_item_btn);
         // 텍스트뷰 현재 날짜 출력시키기
         selectDate.setText(simpleDateFormat.format(date));
-        selectDate.setOnClickListener(this);
+        selectDate.setOnClickListener(this); // 텍스트뷰 클릭 이벤트 리스너 연동
+        add_plan_item_btn.setOnClickListener(this);
 
         // 리사이클러뷰(카드뷰)에 데이터 바인딩
         recyclerView = rootView.findViewById(R.id.plan_RecyclearView);
         planningItems = new ArrayList<>();
-        planningItems.add(new PlanningItem("2022년 3월 9일","서울여행",
-                "더미데이터더미데이터더미데이터더미데이터더미데이터더미데이터더미데이터더미데이터더미데이터"));
-        planningItems.add(new PlanningItem("2022년 3월 8일","부산여행",
-                "더미데이터더미데이터더미데이터더미데이터더미데이터더미데이터더미데이터더미데이터더미데이터"));
-        planningItems.add(new PlanningItem("2022년 3월 7일","경주여행",
-                "더미데이터더미데이터더미데이터더미데이터더미데이터더미데이터더미데이터더미데이터더미데이터"));
-        planningItems.add(new PlanningItem("2022년 3월 6일","제주도여행",
-                "더미데이터더미데이터더미데이터더미데이터더미데이터더미데이터더미데이터더미데이터더미데이터"));
+//        planningItems.add(new PlanningItem("2022년 3월 9일","서울여행",
+//                "더미데이터더미데이터더미데이터더미데이터더미데이터더미데이터더미데이터더미데이터더미데이터"));
 
         // 리사이클러뷰 연결
-        PlanningCardViewAdapter planningCardViewAdapter = new PlanningCardViewAdapter(planningItems);
+        planningCardViewAdapter = new PlanningCardViewAdapter(planningItems);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(planningCardViewAdapter);
         return rootView;
@@ -124,6 +121,9 @@ public class Planning extends Fragment implements View.OnClickListener{
             case R.id.selectDate:
                 new DatePickerDialog(getActivity(),datePicker, calendar.get(Calendar.YEAR),
                         calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH)).show();
+                break;
+            case R.id.add_plan_item_btn:
+                planningCardViewAdapter.notifyItemInserted(0);
                 break;
         }
     }
