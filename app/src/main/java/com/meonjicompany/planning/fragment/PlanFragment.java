@@ -31,7 +31,7 @@ public class PlanFragment extends Fragment implements View.OnClickListener{
     // 리사이클러뷰 어뎁터 객체 생성
     PlanningCardViewAdapter planningCardViewAdapter;
     // 라사이클러뷰에 뿌려줄 DTO 객체 생성
-    ArrayList<PlanningItemDTO> planningItems;
+    ArrayList<PlanningItemDTO> planningItemDTO;
     // 캘린더 객체 생성
     Calendar calendar = Calendar.getInstance();
     long now = System.currentTimeMillis();
@@ -103,12 +103,10 @@ public class PlanFragment extends Fragment implements View.OnClickListener{
 
         // 리사이클러뷰(카드뷰)에 데이터 바인딩
         recyclerView = rootView.findViewById(R.id.plan_RecyclearView);
-        planningItems = new ArrayList<>();
-//        planningItems.add(new PlanningItem("2022년 3월 9일","서울여행",
-//                "더미데이터더미데이터더미데이터더미데이터더미데이터더미데이터더미데이터더미데이터더미데이터"));
-
+        // 리사이클러뷰 DTO 객체 생성
+        planningItemDTO = new ArrayList<>();
         // 리사이클러뷰 연결
-        planningCardViewAdapter = new PlanningCardViewAdapter(planningItems);
+        planningCardViewAdapter = new PlanningCardViewAdapter(planningItemDTO);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(planningCardViewAdapter);
         return rootView;
@@ -123,7 +121,9 @@ public class PlanFragment extends Fragment implements View.OnClickListener{
                         calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH)).show();
                 break;
             case R.id.add_plan_item_btn:
-                planningCardViewAdapter.notifyItemInserted(0);
+                planningItemDTO.add(new PlanningItemDTO("2022년 3월 9일","서울여행",
+                "더미데이터더미데이터더미데이터더미데이터더미데이터더미데이터더미데이터더미데이터더미데이터"));
+                planningCardViewAdapter.notifyItemInserted(planningItemDTO.size());
                 break;
         }
     }

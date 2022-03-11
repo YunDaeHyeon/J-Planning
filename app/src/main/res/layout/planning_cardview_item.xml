@@ -40,22 +40,22 @@
                     android:id="@+id/plan_date">
                 </TextView>
 
-                <EditText
+                <TextView
                     android:id="@+id/plan_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginBottom="10dp"
                     android:hint="계획 제목"
-                    tools:ignore="TouchTargetSizeCheck"></EditText>
+                    tools:ignore="TouchTargetSizeCheck"></TextView>
 
-                <EditText
+                <TextView
                     android:id="@+id/plan_contents"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:hint="계획 내용"
-                    tools:ignore="TouchTargetSizeCheck"></EditText>
+                    tools:ignore="TouchTargetSizeCheck"></TextView>
 
             </LinearLayout>
 
