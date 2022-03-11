@@ -62,18 +62,5 @@ public class IndexPage extends AppCompatActivity {
                 return null;
             }
         };
-//        logoutButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                UserApiClient.getInstance().logout(new Function1<Throwable, Unit>() {
-//                    @Override
-//                    public Unit invoke(Throwable throwable) { // 로그아웃시 발생하는 이벤트
-//                        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-//                        startActivity(intent);
-//                        return null;
-//                    }
-//                });
-//            }
-//        });
     }
 }
