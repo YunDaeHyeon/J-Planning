@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.meonjicompany.planning.DTO.PlanningItemDTO;
 import com.meonjicompany.planning.R;
 import com.meonjicompany.planning.adapter.PlanningCardViewAdapter;
+import com.meonjicompany.planning.dialog.PlanDialog;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -34,6 +35,8 @@ public class PlanFragment extends Fragment implements View.OnClickListener{
     ArrayList<PlanningItemDTO> planningItemDTO;
     // 캘린더 객체 생성
     Calendar calendar = Calendar.getInstance();
+    // 다이얼로그 선언
+    PlanDialog planDialog;
     long now = System.currentTimeMillis();
     Date date = new Date(now);
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
@@ -121,9 +124,9 @@ public class PlanFragment extends Fragment implements View.OnClickListener{
                         calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH)).show();
                 break;
             case R.id.add_plan_item_btn:
-                planningItemDTO.add(new PlanningItemDTO("2022년 3월 9일","서울여행",
-                "더미데이터더미데이터더미데이터더미데이터더미데이터더미데이터더미데이터더미데이터더미데이터"));
-                planningCardViewAdapter.notifyItemInserted(planningItemDTO.size());
+                planDialog = PlanDialog.getInstance();
+                planDialog.show(getActivity().getSupportFragmentManager(), PlanDialog.TAG_PLAN_DIALOG);
+//                planningCardViewAdapter.notifyItemInserted(planningItemDTO.size());
                 break;
         }
     }
