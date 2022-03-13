@@ -14,8 +14,10 @@ import android.widget.TimePicker;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 
 import com.meonjicompany.planning.R;
+import com.meonjicompany.planning.fragment.PlanFragment;
 
 import java.util.Calendar;
 
@@ -24,6 +26,7 @@ public class PlanDialog extends DialogFragment implements View.OnClickListener {
     private TextView time; // 시간 텍스트뷰
     private EditText contents; // 내용
     private TimePickerDialog timePickerDialog; // 타임피커 선언
+    PlanAddItem planAddItem;
     public static final String TAG_PLAN_DIALOG = "plan_dialog";
 
     public PlanDialog(){}
@@ -31,15 +34,6 @@ public class PlanDialog extends DialogFragment implements View.OnClickListener {
     public static PlanDialog getInstance(){
         PlanDialog planDialog = new PlanDialog();
         return planDialog;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        // DialogFragment 크기 지정
-//        int width = getResources().getDimensionPixelSize(R.dimen.dialog_width);
-//        int height = getResources().getDimensionPixelSize(R.dimen.dialog_height);
-//        getDialog().getWindow().setLayout(width,height);
     }
 
     @Override
@@ -72,12 +66,12 @@ public class PlanDialog extends DialogFragment implements View.OnClickListener {
         time.setOnClickListener(this); // 시간 텍스트 클릭 리스너 지정
     }
 
-
     @Override
     public void onClick(View view) {
         switch(view.getId()){
                 // 추가 버튼 클릭
             case R.id.planning_add_btn:
+                planAddItem.addPlan(String.valueOf(time.getText()), String.valueOf(contents.getText()));
                 dismiss(); // 다이얼로그 종료
                 break;
                 // 시간 설정 텍스트뷰 클릭
@@ -94,5 +88,13 @@ public class PlanDialog extends DialogFragment implements View.OnClickListener {
                 timePickerDialog.show();
                 break;
         }
+    }
+
+    public void setDialogResult(PlanAddItem planAddItem){
+        this.planAddItem = planAddItem;
+    }
+
+    public interface PlanAddItem{
+        void addPlan(String time, String contents);
     }
 }

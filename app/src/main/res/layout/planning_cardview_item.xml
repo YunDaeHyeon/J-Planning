@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:xmls="http://schemas.android.com/apk/res-auto">
 
     <androidx.cardview.widget.CardView
@@ -41,21 +41,16 @@
                 </TextView>
 
                 <TextView
-                    android:id="@+id/plan_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:hint="계획 제목"
-                    tools:ignore="TouchTargetSizeCheck"></TextView>
-
-                <TextView
                     android:id="@+id/plan_contents"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="60dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginBottom="10dp"
+                    android:gravity="top|left"
                     android:hint="계획 내용"
+                    android:inputType="textMultiLine"
+                    android:lines="5"
+                    android:scrollHorizontally="false"
                     tools:ignore="TouchTargetSizeCheck"></TextView>
 
             </LinearLayout>

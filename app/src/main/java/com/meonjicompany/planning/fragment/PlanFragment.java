@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -126,7 +127,13 @@ public class PlanFragment extends Fragment implements View.OnClickListener{
             case R.id.add_plan_item_btn:
                 planDialog = PlanDialog.getInstance();
                 planDialog.show(getActivity().getSupportFragmentManager(), PlanDialog.TAG_PLAN_DIALOG);
-//                planningCardViewAdapter.notifyItemInserted(planningItemDTO.size());
+                planDialog.setDialogResult(new PlanDialog.PlanAddItem() {
+                    @Override
+                    public void addPlan(String time, String contents) {
+                        planningItemDTO.add(new PlanningItemDTO(time, contents));
+                        planningCardViewAdapter.notifyItemInserted(planningItemDTO.size());
+                    }
+                });
                 break;
         }
     }

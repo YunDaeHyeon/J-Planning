@@ -1,41 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <!-- TODO: Update blank fragment layout -->
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="30dp"
-            android:id="@+id/selectDate"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:text="날짜를 선택해주세요"
-            android:textAlignment="center"/>
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:id="@+id/selectDate"
+                android:textColor="@color/black"
+                android:layout_marginLeft="10dp"
+                android:text="날짜를 선택해주세요"
+                android:textAlignment="center"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                />
+
+            <Button
+                android:id="@+id/add_plan_item_btn"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:text="+"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"></Button>
+
+        </LinearLayout>
+
+        <!-- TODO: Update blank fragment layout -->
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
             android:id="@+id/plan_RecyclearView"
             />
 
-        <Button
-            android:id="@+id/add_plan_item_btn"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
-            android:text="+"></Button>
-
     </LinearLayout>
-
-
-
 </FrameLayout>

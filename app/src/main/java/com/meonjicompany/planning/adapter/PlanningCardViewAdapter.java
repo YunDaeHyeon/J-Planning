@@ -65,7 +65,6 @@ public class PlanningCardViewAdapter extends RecyclerView.Adapter<PlanningCardVi
     @Override // 뷰 홀더 데이터 바인딩
     public void onBindViewHolder(@NonNull PlanningCardViewAdapter.PlanningCardViewHolder holder, int position) {
         holder.plan_date.setText(planningItemDTO.get(position).getDate());
-        holder.plan_title.setText(planningItemDTO.get(position).getTitle());
         holder.plan_contents.setText(planningItemDTO.get(position).getContents());
     }
 
@@ -75,12 +74,11 @@ public class PlanningCardViewAdapter extends RecyclerView.Adapter<PlanningCardVi
     }
 
     class PlanningCardViewHolder extends RecyclerView.ViewHolder{
-        TextView plan_date, plan_title, plan_contents;
+        TextView plan_date, plan_contents;
         Button delete_plan_item_btn;
         public PlanningCardViewHolder(@NonNull View itemView) {
             super(itemView);
             this.plan_date = itemView.findViewById(R.id.plan_date);
-            this.plan_title = itemView.findViewById(R.id.plan_title);
             this.plan_contents = itemView.findViewById(R.id.plan_contents);
             this.delete_plan_item_btn = itemView.findViewById(R.id.delete_plan_item_btn);
         }

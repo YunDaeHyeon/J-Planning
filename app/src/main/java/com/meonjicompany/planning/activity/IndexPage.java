@@ -26,9 +26,6 @@ public class IndexPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         planFragment = new PlanFragment();
-        repositoryFragment = new RepositoryFragment();
-        profileFragment = new ProfileFragment();
-
         // 프래그먼트를 액티비티에 올리기 ( 초기화면 설정 - 계획(planFragment) )
         getSupportFragmentManager().beginTransaction().replace(R.id.containers,planFragment).commit();
         NavigationBarView navigationBarView = findViewById(R.id.bottom_navigationview);
@@ -37,13 +34,35 @@ public class IndexPage extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch(item.getItemId()){
                     case R.id.ic_repository: // 보관소 프래그먼트
-                        getSupportFragmentManager().beginTransaction().replace(R.id.containers,repositoryFragment).commit();
+                        if(repositoryFragment == null){
+                            repositoryFragment = new RepositoryFragment();
+                            getSupportFragmentManager().beginTransaction().add(R.id.containers, repositoryFragment).commit();
+                        }
+
+                        if(repositoryFragment != null) getSupportFragmentManager().beginTransaction().show(repositoryFragment).commit();
+                        if(planFragment != null) getSupportFragmentManager().beginTransaction().hide(planFragment).commit();
+                        if(profileFragment != null) getSupportFragmentManager().beginTransaction().hide(profileFragment).commit();
                         return true;
+
                     case R.id.ic_planning: // 계획 프래그먼트
-                        getSupportFragmentManager().beginTransaction().replace(R.id.containers,planFragment).commit();
+                        if(planFragment == null){
+                            planFragment = new PlanFragment();
+                            getSupportFragmentManager().beginTransaction().add(R.id.containers, planFragment).commit();
+                        }
+
+                        if(repositoryFragment != null) getSupportFragmentManager().beginTransaction().hide(repositoryFragment).commit();
+                        if(planFragment != null) getSupportFragmentManager().beginTransaction().show(planFragment).commit();
+                        if(profileFragment != null) getSupportFragmentManager().beginTransaction().hide(profileFragment).commit();
                         return true;
                     case R.id.ic_profile: // 프로필 프래그먼트
-                        getSupportFragmentManager().beginTransaction().replace(R.id.containers,profileFragment).commit();
+                        if(profileFragment == null){
+                            profileFragment = new ProfileFragment();
+                            getSupportFragmentManager().beginTransaction().add(R.id.containers, profileFragment).commit();
+                        }
+
+                        if(repositoryFragment != null) getSupportFragmentManager().beginTransaction().hide(repositoryFragment).commit();
+                        if(planFragment != null) getSupportFragmentManager().beginTransaction().hide(planFragment).commit();
+                        if(profileFragment != null) getSupportFragmentManager().beginTransaction().show(profileFragment).commit();
                         return true;
                 }
                 return false;

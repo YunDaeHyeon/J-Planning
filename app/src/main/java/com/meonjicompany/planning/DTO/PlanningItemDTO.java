@@ -2,12 +2,10 @@ package com.meonjicompany.planning.DTO;
 
 public class PlanningItemDTO {
     private String date;
-    private String title;
     private String contents;
 
-    public PlanningItemDTO(String date, String title, String contents) {
+    public PlanningItemDTO(String date, String contents) {
         this.date = date;
-        this.title = title;
         this.contents = contents;
     }
 
@@ -17,14 +15,6 @@ public class PlanningItemDTO {
 
     public void setDate(String date) {
         this.date = date;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public String getContents() {
