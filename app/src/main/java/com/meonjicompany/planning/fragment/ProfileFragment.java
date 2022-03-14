@@ -29,7 +29,7 @@ import kotlin.jvm.functions.Function2;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link com.meonjicompany.planning.fragment.ProfileFragment#newInstance} factory method to
+ * Use the {@link ProfileFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class ProfileFragment extends Fragment implements View.OnClickListener{
@@ -58,8 +58,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
      * @return A new instance of fragment MyProfile.
      */
     // TODO: Rename and change types and number of parameters
-    public static com.meonjicompany.planning.fragment.ProfileFragment newInstance(String param1, String param2) {
-        com.meonjicompany.planning.fragment.ProfileFragment fragment = new com.meonjicompany.planning.fragment.ProfileFragment();
+    public static ProfileFragment newInstance(String param1, String param2) {
+        ProfileFragment fragment = new ProfileFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -88,20 +88,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
 
         // 로그 아웃 버튼
         logout.setOnClickListener(this);
-//
-//        Function2<OAuthToken, Throwable, Unit> callback = new  Function2<OAuthToken, Throwable, Unit>() {
-//            @Override
-//            public Unit invoke(OAuthToken oAuthToken, Throwable throwable) {
-//                // 이때 토큰이 전달이 되면 로그인이 성공한 것이고 토큰이 전달되지 않았다면 로그인 실패
-//                if(oAuthToken != null) {
-//                }
-//                if (throwable != null) {
-//
-//                }
-//                return null;
-//            }
-//        };
-
         userProfileRoad(); // 프로필 로드 메소드 호출
         return rootView;
     }

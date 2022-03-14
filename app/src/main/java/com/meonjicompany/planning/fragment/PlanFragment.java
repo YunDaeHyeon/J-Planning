@@ -1,8 +1,11 @@
 package com.meonjicompany.planning.fragment;
 import android.app.DatePickerDialog;
+import android.graphics.Canvas;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -75,8 +78,8 @@ public class PlanFragment extends Fragment implements View.OnClickListener{
      * @return A new instance of fragment Planning.
      */
     // TODO: Rename and change types and number of parameters
-    public static com.meonjicompany.planning.fragment.PlanFragment newInstance(String param1, String param2) {
-        com.meonjicompany.planning.fragment.PlanFragment fragment = new com.meonjicompany.planning.fragment.PlanFragment();
+    public static PlanFragment newInstance(String param1, String param2) {
+        PlanFragment fragment = new PlanFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -110,7 +113,7 @@ public class PlanFragment extends Fragment implements View.OnClickListener{
         // 리사이클러뷰 DTO 객체 생성
         planningItemDTO = new ArrayList<>();
         // 리사이클러뷰 연결
-        planningCardViewAdapter = new PlanningCardViewAdapter(planningItemDTO);
+        planningCardViewAdapter = new PlanningCardViewAdapter(getActivity(), planningItemDTO);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(planningCardViewAdapter);
         return rootView;

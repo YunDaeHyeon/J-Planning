@@ -11,7 +11,7 @@ import com.meonjicompany.planning.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link com.meonjicompany.planning.fragment.RepositoryFragment#newInstance} factory method to
+ * Use the {@link RepositoryFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class RepositoryFragment extends Fragment {
@@ -38,8 +38,8 @@ public class RepositoryFragment extends Fragment {
      * @return A new instance of fragment Repository.
      */
     // TODO: Rename and change types and number of parameters
-    public static com.meonjicompany.planning.fragment.RepositoryFragment newInstance(String param1, String param2) {
-        com.meonjicompany.planning.fragment.RepositoryFragment fragment = new com.meonjicompany.planning.fragment.RepositoryFragment();
+    public static RepositoryFragment newInstance(String param1, String param2) {
+        RepositoryFragment fragment = new RepositoryFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
