@@ -31,6 +31,10 @@ dependencies {
     // 오픈소스 이미지 핸들링할 때 많이 사용되는 글라이드
     implementation "com.github.bumptech.glide:glide:4.11.0"
     implementation "com.kakao.sdk:v2-user:2.8.6" // 카카오 로그인
+    // 네트워킹을 사용하기 위해 Retrofit 추가
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'com.google.android.material:material:1.5.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
