@@ -3,6 +3,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -11,10 +12,19 @@ import android.widget.Toast;
 import com.kakao.sdk.auth.model.OAuthToken;
 import com.kakao.sdk.user.UserApiClient;
 import com.kakao.sdk.user.model.User;
+import com.meonjicompany.planning.DTO.UserDTO;
 import com.meonjicompany.planning.R;
+import com.meonjicompany.planning.retrofit.UserInformationInterface;
+
+import java.util.List;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginPage extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
@@ -33,6 +43,7 @@ public class LoginPage extends AppCompatActivity {
                 // 이때 토큰이 전달이 되면 로그인이 성공한 것이고 토큰이 전달되지 않았다면 로그인 실패
                 // 로그인 버튼을 클릭할 때 로그인 성공 시
                 if(oAuthToken != null) {
+                    userProfileSave(); // 유저 정보 저장 메소드 호출
                     Intent intent = new Intent(LoginPage.this, IndexPage.class);
                     startActivity(intent);
                     Toast.makeText(getApplicationContext(),"로그인 되었습니다.",Toast.LENGTH_SHORT).show();
@@ -77,5 +88,33 @@ public class LoginPage extends AppCompatActivity {
                 return null;
             }
         });
+    }
+
+    private void userProfileSave(){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://localhost:8080/user/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        UserInformationInterface retrofitAPI = retrofit.create(UserInformationInterface.class);
+        retrofitAPI.getData("1").equals(new Callback<List<UserDTO>>() {
+            @Override
+            public void onResponse(Call<List<UserDTO>> call, Response<List<UserDTO>> response) {
+                if(response.isSuccessful()){ // 통신 성공
+                    List<UserDTO> data = response.body();
+//                    Log.d("통신된 데이터 - userId : ", String.valueOf(data.get(0).getUserId()));
+//                    Log.d("통신된 데이터 - Id : ", String.valueOf(data.get(0).getId()));
+//                    Log.d("통신된 데이터 - title : ",data.get(0).getTitle());
+//                    Log.d("통신된 데이터 - body :",data.get(0).getBody());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<UserDTO>> call, Throwable t) {
+                // 통신 실패
+                Log.d("통신","실패");
+                t.printStackTrace();
+            }
+        });
+
     }
 }

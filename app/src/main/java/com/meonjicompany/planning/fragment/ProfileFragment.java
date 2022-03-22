@@ -17,15 +17,24 @@ import com.bumptech.glide.Glide;
 import com.kakao.sdk.auth.model.OAuthToken;
 import com.kakao.sdk.user.UserApiClient;
 import com.kakao.sdk.user.model.User;
+import com.meonjicompany.planning.DTO.UserDTO;
 import com.meonjicompany.planning.R;
 import com.meonjicompany.planning.activity.IndexPage;
 import com.meonjicompany.planning.activity.LoginPage;
+import com.meonjicompany.planning.retrofit.UserInformationInterface;
 
 import org.w3c.dom.Text;
+
+import java.util.List;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 import kotlin.jvm.functions.Function2;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * A simple {@link Fragment} subclass.
