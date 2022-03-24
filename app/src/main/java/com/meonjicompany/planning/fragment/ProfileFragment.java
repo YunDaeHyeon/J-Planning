@@ -14,18 +14,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.kakao.sdk.auth.model.OAuthToken;
 import com.kakao.sdk.user.UserApiClient;
 import com.kakao.sdk.user.model.User;
-import com.meonjicompany.planning.DTO.UserDTO;
 import com.meonjicompany.planning.R;
-import com.meonjicompany.planning.activity.IndexPage;
 import com.meonjicompany.planning.activity.LoginPage;
-import com.meonjicompany.planning.retrofit.UserInformationInterface;
-
-import org.w3c.dom.Text;
-
-import java.util.List;
+import com.meonjicompany.planning.retrofit.Message;
+import com.meonjicompany.planning.retrofit.RetrofitAPI;
+import com.meonjicompany.planning.retrofit.RetrofitClient;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
@@ -33,8 +28,6 @@ import kotlin.jvm.functions.Function2;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -42,9 +35,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * create an instance of this fragment.
  */
 public class ProfileFragment extends Fragment implements View.OnClickListener{
-    private Button logout;
+    private Button logout, send;
+    private RetrofitAPI retrofitAPI;
     private TextView user_nickname, user_email;
     private ImageView user_profile_image;
+    private String userEmail = "테스트 이메일";
+    private String userNickname = "테스트 닉네임";
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -91,12 +88,15 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
         // Inflate the layout for this fragment
         ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_my_profile,container,false);
         logout = (Button) rootView.findViewById(R.id.logout);
+        send = (Button) rootView.findViewById(R.id.send);
         user_profile_image = (ImageView) rootView.findViewById(R.id.user_profile_image);
         user_nickname = (TextView) rootView.findViewById(R.id.user_nickname);
         user_email = (TextView) rootView.findViewById(R.id.user_email);
 
         // 로그 아웃 버튼
         logout.setOnClickListener(this);
+        // 서버 통신 테스트
+        send.setOnClickListener(this);
         userProfileRoad(); // 프로필 로드 메소드 호출
         return rootView;
     }
@@ -112,6 +112,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
                             getProfileImageUrl()).circleCrop().into(user_profile_image);
                     user_nickname.setText(user.getKakaoAccount().getProfile().getNickname());
                     user_email.setText(user.getKakaoAccount().getEmail());
+                    userNickname = user.getKakaoAccount().getProfile().getNickname();
+                    userEmail = user.getKakaoAccount().getEmail();
                 }else {
                     // 로그인이 되어 있지 않다면 위와 반대로
                     user_nickname.setText("닉네임 불러오기에 실패했습니다.");
@@ -138,6 +140,35 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
                 });
                 break;
             }
+            case R.id.send:
+                userProfileSave();
+                break;
         }
     }
+
+    public void userProfileSave(){
+            RetrofitClient retrofitClient = RetrofitClient.getInstance();
+            if(retrofitClient != null){
+                Log.d("userEmail = ",userEmail);
+                Log.d("userNickname = ",userNickname);
+                retrofitAPI = RetrofitClient.getRetrofitAPI();
+                retrofitAPI.sendUser(userEmail,userNickname).enqueue(new Callback<Message>() {
+                    @Override
+                    public void onResponse(Call<Message> call, Response<Message> response) {
+                        if(response.isSuccessful()){
+                            final Message message = response.body();
+                            Toast.makeText(getActivity(), "서버에 값을 전달하였습니다."+message.getMessage(), Toast.LENGTH_SHORT).show();
+                        }else{
+                            Log.d("오류 발생","onResponse 실패 ( 3xx, 4xx 오류)");
+                            Toast.makeText(getActivity(), "onResponse 실패, 3xx, 4xx 오류", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<Message> call, Throwable t) {
+                        t.printStackTrace();
+                        Toast.makeText(getActivity(), "서버와 통신중 에러가 발생하였습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }
 }
