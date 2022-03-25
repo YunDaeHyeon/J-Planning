@@ -98,12 +98,12 @@ public class IndexPage extends AppCompatActivity {
 
     public void firstApplicationRoadCheck(){
         //최초 실행 여부 판단하는 구문
-        SharedPreferences pref = getSharedPreferences("isFirst", Activity.MODE_PRIVATE);
-        boolean first = pref.getBoolean("isFirst", false);
-        if(first==false){
-            Log.d("Is first Time?", "first");
-            SharedPreferences.Editor editor = pref.edit();
-            editor.putBoolean("isFirst",true);
+        SharedPreferences sharedPreferences = getSharedPreferences("CHECK", Activity.MODE_PRIVATE);
+        boolean check = sharedPreferences.getBoolean("CHECK", false);
+        if(check==false){
+            Log.d("앱 실행 판단", "최초로 실행");
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("CHECK",true);
             editor.commit();
             //앱 최초 실행시 하고 싶은 작업
             UserApiClient.getInstance().me(new Function2<User, Throwable, Unit>() {
@@ -141,7 +141,7 @@ public class IndexPage extends AppCompatActivity {
                 }
             });
         }else{
-            Log.d("Is first Time?", "not first");
+            Log.d("앱 실행 판단", "최초로 실행된 것이 아님.");
         }
     }
 }
