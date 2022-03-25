@@ -10,19 +10,15 @@ import com.kakao.sdk.auth.model.OAuthToken;
 import com.kakao.sdk.user.UserApiClient;
 import com.kakao.sdk.user.model.User;
 import com.meonjicompany.planning.R;
-import com.meonjicompany.planning.retrofit.Message;
-import com.meonjicompany.planning.retrofit.RetrofitAPI;
-import com.meonjicompany.planning.retrofit.RetrofitClient;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class LoginPage extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private View loginButton;
+    String themeColor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
