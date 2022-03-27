@@ -11,4 +11,8 @@ public interface RetrofitAPI {
     @POST("/user/save")
     Call<Message> sendUser(@Field("user_email") String userEmail,
                            @Field("user_nickname") String userNickname);
+
+    @FormUrlEncoded
+    @POST("/user/roadUserId")
+    Call<Message> roadUserId(@Field("user_email") String userEmail);
 }

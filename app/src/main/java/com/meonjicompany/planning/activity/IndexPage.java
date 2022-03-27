@@ -30,6 +30,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class IndexPage extends AppCompatActivity {
+    public static int userId = 0; // 유저 식별자
     PlanFragment planFragment; // 계획 프래그먼트 객체
     RepositoryFragment repositoryFragment; // 보관소 프래그먼트 객체
     ProfileFragment profileFragment; // 프로필 프래그먼트 객체
@@ -141,6 +142,40 @@ public class IndexPage extends AppCompatActivity {
                 }
             });
         }else{
+            UserApiClient.getInstance().me(new Function2<User, Throwable, Unit>() {
+                @Override
+                public Unit invoke(User user, Throwable throwable) {
+                    // 로그인이 되어있으면
+                    if (user!=null){
+                        RetrofitClient retrofitClient = RetrofitClient.getInstance();
+                        if(retrofitClient != null){
+                            retrofitAPI = RetrofitClient.getRetrofitAPI();
+                            retrofitAPI.roadUserId(user.getKakaoAccount().getEmail()).enqueue(new Callback<Message>() {
+                                @Override
+                                public void onResponse(Call<Message> call, Response<Message> response) {
+                                    if(response.isSuccessful()){
+                                        final Message message = response.body(); // message.getMessage() - 유저 식별자를 끌고옴.
+                                        userId = Integer.parseInt(message.getMessage());
+                                        Log.d("userID : ", String.valueOf(userId));
+                                        Toast.makeText(getApplicationContext(), "서버에 값을 전달하였습니다.", Toast.LENGTH_SHORT).show();
+                                    }else{
+                                        Log.d("오류 발생","onResponse 실패 ( 3xx, 4xx 오류)");
+                                        Toast.makeText(getApplicationContext(), "onResponse 실패, 3xx, 4xx 오류", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                                @Override
+                                public void onFailure(Call<Message> call, Throwable t) {
+                                    t.printStackTrace();
+                                    Toast.makeText(getApplicationContext(), "서버와 통신중 에러가 발생하였습니다.", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    }else {
+                        Log.d("Error : ","userIdRoad Error");
+                    }
+                    return null;
+                }
+            });
             Log.d("앱 실행 판단", "최초로 실행된 것이 아님.");
         }
     }

@@ -15,12 +15,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.meonjicompany.planning.DTO.PlanningItemDTO;
 import com.meonjicompany.planning.R;
+import com.meonjicompany.planning.activity.IndexPage;
 import com.meonjicompany.planning.adapter.PlanningCardViewAdapter;
 import com.meonjicompany.planning.dialog.PlanDialog;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -30,7 +36,8 @@ import java.util.Locale;
 
 public class PlanFragment extends Fragment implements View.OnClickListener{
     TextView selectDate;
-    Button add_plan_item_btn;
+    EditText title;
+    Button add_plan_item_btn, save_plan_btn;
     // 리사이클러뷰 객체 생성
     RecyclerView recyclerView;
     // 리사이클러뷰 어뎁터 객체 생성
@@ -102,12 +109,16 @@ public class PlanFragment extends Fragment implements View.OnClickListener{
         // Inflate the layout for this fragment
         ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_planning,container,false);
         selectDate = (TextView) rootView.findViewById(R.id.selectDate);
+        title = (EditText) rootView.findViewById(R.id.title);
         add_plan_item_btn = (Button) rootView.findViewById(R.id.add_plan_item_btn);
+        save_plan_btn = (Button) rootView.findViewById(R.id.save_plan_btn);
         // 텍스트뷰 현재 날짜 출력시키기
         selectDate.setText(simpleDateFormat.format(date));
         selectDate.setOnClickListener(this); // 텍스트뷰 클릭 이벤트 리스너 연동
         add_plan_item_btn.setOnClickListener(this);
+        save_plan_btn.setOnClickListener(this);
 
+        //roadPlanning(); // 계획 불러오기
         // 리사이클러뷰(카드뷰)에 데이터 바인딩
         recyclerView = rootView.findViewById(R.id.plan_RecyclearView);
         // 리사이클러뷰 DTO 객체 생성
@@ -138,6 +149,11 @@ public class PlanFragment extends Fragment implements View.OnClickListener{
                     }
                 });
                 break;
+            case R.id.save_plan_btn:
+                JSONObject jsonObject = new JSONObject();
+                createJson(jsonObject);
+                System.out.println(jsonObject.toString());
+                break;
         }
     }
 
@@ -146,5 +162,28 @@ public class PlanFragment extends Fragment implements View.OnClickListener{
         String dateFormat = "yyyy년 MM월 dd일"; // 날짜 출력 형식 지정
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat, Locale.KOREA);
         selectDate.setText(simpleDateFormat.format(calendar.getTime()));
+    }
+
+    // 계획 불러오기
+    private void roadPlanning(){
+        int userId = IndexPage.userId;
+    }
+
+    private void createJson(JSONObject jsonObject){
+        try{
+            JSONArray jsonArray = new JSONArray();
+            for(int i = 0 ; i < planningItemDTO.size(); i++){
+                JSONObject jsonObject1 = new JSONObject();
+                jsonObject1.put("piece_time",planningItemDTO.get(i).getDate());
+                jsonObject1.put("piece_contents",planningItemDTO.get(i).getContents());
+                jsonArray.put(jsonObject1);
+            }
+            jsonObject.put("user_id",IndexPage.userId);
+            jsonObject.put("plan_title",title.getText().toString());
+            jsonObject.put("plan_date",selectDate.getText().toString());
+            jsonObject.put("contents",jsonArray);
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
     }
 }
