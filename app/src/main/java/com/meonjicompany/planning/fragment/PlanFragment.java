@@ -2,12 +2,9 @@ package com.meonjicompany.planning.fragment;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
-import android.graphics.Canvas;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,22 +16,28 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.meonjicompany.planning.DTO.Piece;
+import com.meonjicompany.planning.DTO.PlanPOJO;
 import com.meonjicompany.planning.DTO.PlanningItemDTO;
 import com.meonjicompany.planning.R;
 import com.meonjicompany.planning.activity.IndexPage;
 import com.meonjicompany.planning.adapter.PlanningCardViewAdapter;
 import com.meonjicompany.planning.dialog.PlanDialog;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.meonjicompany.planning.retrofit.Message;
+import com.meonjicompany.planning.retrofit.RetrofitAPI;
+import com.meonjicompany.planning.retrofit.RetrofitClient;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class PlanFragment extends Fragment implements View.OnClickListener{
     TextView selectDate;
@@ -50,6 +53,7 @@ public class PlanFragment extends Fragment implements View.OnClickListener{
     Calendar calendar = Calendar.getInstance();
     // 다이얼로그 선언
     PlanDialog planDialog;
+    private RetrofitAPI retrofitAPI; // 통신을 위한 Retrofit 객체
     long now = System.currentTimeMillis();
     Date date = new Date(now);
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
@@ -160,9 +164,28 @@ public class PlanFragment extends Fragment implements View.OnClickListener{
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                JSONObject jsonObject = new JSONObject();
-                                createJson(jsonObject);
-                                System.out.println(jsonObject.toString());
+                                PlanPOJO planPOJO = createPOJO();
+                                RetrofitClient retrofitClient = RetrofitClient.getInstance();
+                                if(retrofitClient != null){
+                                    retrofitAPI = RetrofitClient.getRetrofitAPI();
+                                    retrofitAPI.savePlan(planPOJO).enqueue(new Callback<Message>() {
+                                        @Override
+                                        public void onResponse(Call<Message> call, Response<Message> response) {
+                                            if(response.isSuccessful()){
+                                                final Message message = response.body();
+                                                Toast.makeText(getActivity(), "서버에 값을 전달하였습니다."+message.getMessage(), Toast.LENGTH_SHORT).show();
+                                            }else{
+                                                Log.d("오류 발생","onResponse 실패 ( 3xx, 4xx 오류)");
+                                                Toast.makeText(getActivity(), "onResponse 실패, 3xx, 4xx 오류", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                        @Override
+                                        public void onFailure(Call<Message> call, Throwable t) {
+                                            t.printStackTrace();
+                                            Toast.makeText(getActivity(), "서버와 통신중 에러가 발생하였습니다.", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                }
                             }
                         });
                 // "아니요" 클릭 시
@@ -190,21 +213,19 @@ public class PlanFragment extends Fragment implements View.OnClickListener{
         int userId = IndexPage.userId;
     }
 
-    private void createJson(JSONObject jsonObject){
+    private PlanPOJO createPOJO(){
         try{
-            JSONArray jsonArray = new JSONArray();
+            ArrayList<Piece> piece = new ArrayList<>();
             for(int i = 0 ; i < planningItemDTO.size(); i++){
-                JSONObject jsonObject1 = new JSONObject();
-                jsonObject1.put("piece_time",planningItemDTO.get(i).getDate());
-                jsonObject1.put("piece_contents",planningItemDTO.get(i).getContents());
-                jsonArray.put(jsonObject1);
+                piece.add(new Piece(planningItemDTO.get(i).getDate(),
+                        planningItemDTO.get(i).getContents()));
             }
-            jsonObject.put("user_id",IndexPage.userId);
-            jsonObject.put("plan_title",title.getText().toString());
-            jsonObject.put("plan_date",selectDate.getText().toString());
-            jsonObject.put("contents",jsonArray);
-        }catch (JSONException e){
+            PlanPOJO planPOJO = new PlanPOJO(IndexPage.userId, title.getText().toString(),
+                    selectDate.getText().toString(), piece);
+            return planPOJO;
+        }catch (Exception e){
             e.printStackTrace();
         }
+        return null;
     }
 }
