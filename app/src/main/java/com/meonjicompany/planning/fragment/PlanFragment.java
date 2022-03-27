@@ -1,5 +1,7 @@
 package com.meonjicompany.planning.fragment;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.graphics.Canvas;
 import android.os.Bundle;
 
@@ -134,11 +136,11 @@ public class PlanFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.selectDate:
+            case R.id.selectDate: // 날짜 선택 TextView 클릭 시
                 new DatePickerDialog(getActivity(),datePicker, calendar.get(Calendar.YEAR),
                         calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH)).show();
                 break;
-            case R.id.add_plan_item_btn:
+            case R.id.add_plan_item_btn: // 추가 버튼 클릭 시
                 planDialog = PlanDialog.getInstance();
                 planDialog.show(getActivity().getSupportFragmentManager(), PlanDialog.TAG_PLAN_DIALOG);
                 planDialog.setDialogResult(new PlanDialog.PlanAddItem() {
@@ -149,10 +151,29 @@ public class PlanFragment extends Fragment implements View.OnClickListener{
                     }
                 });
                 break;
-            case R.id.save_plan_btn:
-                JSONObject jsonObject = new JSONObject();
-                createJson(jsonObject);
-                System.out.println(jsonObject.toString());
+            case R.id.save_plan_btn: // 저장 버튼 클릭 시
+                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                builder.setTitle("저장");
+                builder.setMessage("저장하시겠습니까?");
+                // "예"를 클릭했을 시
+                builder.setPositiveButton("예",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                JSONObject jsonObject = new JSONObject();
+                                createJson(jsonObject);
+                                System.out.println(jsonObject.toString());
+                            }
+                        });
+                // "아니요" 클릭 시
+                builder.setNegativeButton("아니요",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.cancel();
+                            }
+                        });
+                builder.show();
                 break;
         }
     }
