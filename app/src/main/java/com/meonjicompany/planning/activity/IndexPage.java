@@ -119,7 +119,9 @@ public class IndexPage extends AppCompatActivity {
                                 @Override
                                 public void onResponse(Call<Message> call, Response<Message> response) {
                                     if(response.isSuccessful()){
-                                        final Message message = response.body();
+                                        final Message message = response.body(); // message.getMessage() - 유저 식별자를 끌고옴.
+                                        userId = Integer.parseInt(message.getMessage());
+                                        Log.d("userID : ", String.valueOf(userId));
                                         Toast.makeText(getApplicationContext(), "서버에 값을 전달하였습니다."+message.getMessage(), Toast.LENGTH_SHORT).show();
                                     }else{
                                         Log.d("오류 발생","onResponse 실패 ( 3xx, 4xx 오류)");
@@ -157,7 +159,7 @@ public class IndexPage extends AppCompatActivity {
                                         final Message message = response.body(); // message.getMessage() - 유저 식별자를 끌고옴.
                                         userId = Integer.parseInt(message.getMessage());
                                         Log.d("userID : ", String.valueOf(userId));
-                                        Toast.makeText(getApplicationContext(), "서버에 값을 전달하였습니다.", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), "유저 식별값 : "+userId, Toast.LENGTH_SHORT).show();
                                     }else{
                                         Log.d("오류 발생","onResponse 실패 ( 3xx, 4xx 오류)");
                                         Toast.makeText(getApplicationContext(), "onResponse 실패, 3xx, 4xx 오류", Toast.LENGTH_SHORT).show();

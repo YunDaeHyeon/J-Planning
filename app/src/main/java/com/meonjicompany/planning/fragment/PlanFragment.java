@@ -40,6 +40,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class PlanFragment extends Fragment implements View.OnClickListener{
+    public static int planId = 0; // 계획 식별자
     TextView selectDate;
     EditText title;
     Button add_plan_item_btn, save_plan_btn;
@@ -48,7 +49,7 @@ public class PlanFragment extends Fragment implements View.OnClickListener{
     // 리사이클러뷰 어뎁터 객체 생성
     PlanningCardViewAdapter planningCardViewAdapter;
     // 라사이클러뷰에 뿌려줄 DTO 객체 생성
-    ArrayList<PlanningItemDTO> planningItemDTO;
+    static ArrayList<PlanningItemDTO> planningItemDTO;
     // 캘린더 객체 생성
     Calendar calendar = Calendar.getInstance();
     // 다이얼로그 선언
@@ -136,6 +137,10 @@ public class PlanFragment extends Fragment implements View.OnClickListener{
         return rootView;
     }
 
+//    public static ArrayList<PlanningItemDTO> planItemGetInstance(){
+//        return planningItemDTO;
+//    }
+
     // 클릭 리스너
     @Override
     public void onClick(View view) {
@@ -172,8 +177,10 @@ public class PlanFragment extends Fragment implements View.OnClickListener{
                                         @Override
                                         public void onResponse(Call<Message> call, Response<Message> response) {
                                             if(response.isSuccessful()){
-                                                final Message message = response.body();
-                                                Toast.makeText(getActivity(), "서버에 값을 전달하였습니다."+message.getMessage(), Toast.LENGTH_SHORT).show();
+                                                final Message message = response.body(); // message.getMessage() - 유저 식별자를 끌고옴.
+                                                planId = Integer.parseInt(message.getMessage());
+                                                Log.d("planId : ", String.valueOf(planId));
+                                                Toast.makeText(getActivity(), "저장을 완료하였습니다.", Toast.LENGTH_SHORT).show();
                                             }else{
                                                 Log.d("오류 발생","onResponse 실패 ( 3xx, 4xx 오류)");
                                                 Toast.makeText(getActivity(), "onResponse 실패, 3xx, 4xx 오류", Toast.LENGTH_SHORT).show();
