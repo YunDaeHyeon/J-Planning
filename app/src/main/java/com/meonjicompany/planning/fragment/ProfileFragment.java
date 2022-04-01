@@ -4,6 +4,7 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -133,6 +134,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
                         Intent intent = new Intent(getActivity(), LoginPage.class);
                         startActivity(intent);
                         Toast.makeText(getActivity(),"로그아웃 되었습니다.",Toast.LENGTH_SHORT).show();
+                        // 로그아웃 시 모든 액티비티를 종료시켜 남아있는 모든 액티비티의 라이프 사이클을 종료한다.
+                        ActivityCompat.finishAffinity(getActivity());
                         return null;
                     }
                 });

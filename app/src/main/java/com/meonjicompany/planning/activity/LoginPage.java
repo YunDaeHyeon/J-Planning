@@ -15,9 +15,9 @@ import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
 
 public class LoginPage extends AppCompatActivity {
+    private long backKeyPressedTime = 0; // 뒤로가기 버튼을 눌렀던 시간
     private static final String TAG = "LoginActivity";
     private View loginButton;
-    String themeColor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,5 +77,27 @@ public class LoginPage extends AppCompatActivity {
                 return null;
             }
         });
+    }
+
+    // 뒤로가기 버튼
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        // 기존 뒤로 가기 버튼의 기능을 막기 위해 주석 처리 또는 삭제
+
+        // 마지막으로 뒤로 가기 버튼을 눌렀던 시간에 2.5초를 더해 현재 시간과 비교 후
+        // 마지막으로 뒤로 가기 버튼을 눌렀던 시간이 2.5초가 지났으면 Toast 출력
+        // 2500 milliseconds = 2.5 seconds
+        if (System.currentTimeMillis() > backKeyPressedTime + 2500) {
+            backKeyPressedTime = System.currentTimeMillis();
+            Toast.makeText(getApplicationContext(),"뒤로가기 버튼을 한 번 더 누르시면 종료됩니다.",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        // 마지막으로 뒤로 가기 버튼을 눌렀던 시간에 2.5초를 더해 현재 시간과 비교 후
+        // 마지막으로 뒤로 가기 버튼을 눌렀던 시간이 2.5초가 지나지 않았으면 종료
+        if (System.currentTimeMillis() <= backKeyPressedTime + 2500) {
+            finish();
+
+        }
     }
 }
