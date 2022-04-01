@@ -10,7 +10,7 @@ J에게
 - Laguage : Java
 - Minimun SDK : API 24 : Android 7.0 (Nougat)  
 
-# 22년 3월 11일 오후 2시 16분 기준 패키지 구조
+# 22년 4월 1일 오후 4시 48분 기준 패키지 구조
 ```console
 C:.
 └─com
@@ -21,18 +21,39 @@ C:.
             │      LoginPage.java
             │
             ├─adapter
+            │      PieceCardViewAdapter.java
             │      PlanningCardViewAdapter.java
+            │      RepositoryCardViewAdapter.java
+            │
+            ├─dialog
+            │      PieceDialog.java
+            │      PlanDialog.java
             │
             ├─DTO
+            │      Piece.java
+            │      PieceItemDTO.java
+            │      PieceRoadDTO.java
             │      PlanningItemDTO.java
+            │      PlanPOJO.java
+            │      PlanRoadDTO.java
+            │      RepositoryItemDTO.java
+            │      UserDTO.java
             │
             ├─fragment
             │      PlanFragment.java
             │      ProfileFragment.java
             │      RepositoryFragment.java
             │
-            └─kakao
-                    KakaoAPIConnection.java
+            ├─kakao
+            │      KakaoAPIConnection.java
+            │
+            ├─listener
+            │      OnPieceRoadItemClickListener.java
+            │
+            └─retrofit
+                    Message.java
+                    RetrofitAPI.java
+                    RetrofitClient.java
 ```
 
 # 브랜치 만들기
