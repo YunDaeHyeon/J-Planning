@@ -3,11 +3,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
-
 import com.kakao.sdk.auth.model.OAuthToken;
 import com.kakao.sdk.user.UserApiClient;
 import com.kakao.sdk.user.model.User;
@@ -19,6 +17,7 @@ import kotlin.jvm.functions.Function2;
 public class LoginPage extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private View loginButton;
+    String themeColor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +40,12 @@ public class LoginPage extends AppCompatActivity {
                 if (throwable != null) {
                     Toast.makeText(getApplicationContext(),"로그인 실패",Toast.LENGTH_SHORT).show();
                 }
-//                updateKakaoLoginUi();
                 return null;
             }
         };
+
+        updateKakaoLoginUi();
+
         // 로그인 버튼
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,7 +60,6 @@ public class LoginPage extends AppCompatActivity {
                 }
             }
         });
-        updateKakaoLoginUi();
     }
     private  void updateKakaoLoginUi(){ // 로그인, 로그아웃 레이아웃 함수. userApiCient로 로그인 여부 파악
         UserApiClient.getInstance().me(new Function2<User, Throwable, Unit>() {

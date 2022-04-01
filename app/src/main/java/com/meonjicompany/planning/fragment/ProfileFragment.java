@@ -1,4 +1,6 @@
 package com.meonjicompany.planning.fragment;
+import android.app.AlertDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -9,23 +11,29 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.kakao.sdk.auth.model.OAuthToken;
 import com.kakao.sdk.user.UserApiClient;
 import com.kakao.sdk.user.model.User;
 import com.meonjicompany.planning.R;
-import com.meonjicompany.planning.activity.IndexPage;
 import com.meonjicompany.planning.activity.LoginPage;
+import com.meonjicompany.planning.retrofit.Message;
+import com.meonjicompany.planning.retrofit.RetrofitAPI;
+import com.meonjicompany.planning.retrofit.RetrofitClient;
 
-import org.w3c.dom.Text;
+import java.util.Calendar;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 import kotlin.jvm.functions.Function2;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,6 +44,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
     private Button logout;
     private TextView user_nickname, user_email;
     private ImageView user_profile_image;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";

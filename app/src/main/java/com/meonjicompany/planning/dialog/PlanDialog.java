@@ -57,7 +57,7 @@ public class PlanDialog extends DialogFragment implements View.OnClickListener {
         time = (TextView) view.findViewById(R.id.planning_time);
         contents = (EditText) view.findViewById(R.id.planning_contents);
         clickEvents(); // 클랙 이벤트 실행
-        setCancelable(false); // FragmentDialog 화면 밖 터치 시 dismiss 방지
+        //setCancelable(false); // FragmentDialog 화면 밖 터치 시 dismiss 방지
         return view;
     }
 
