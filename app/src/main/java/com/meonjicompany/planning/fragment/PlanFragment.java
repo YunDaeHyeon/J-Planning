@@ -50,26 +50,25 @@ public class PlanFragment extends Fragment implements View.OnClickListener{
     PlanningCardViewAdapter planningCardViewAdapter;
     // 라사이클러뷰에 뿌려줄 DTO 객체 생성
     static ArrayList<PlanningItemDTO> planningItemDTO;
-    // 캘린더 객체 생성
-    Calendar calendar = Calendar.getInstance();
     // 다이얼로그 선언
     PlanDialog planDialog;
     private RetrofitAPI retrofitAPI; // 통신을 위한 Retrofit 객체
+    // 현재 날짜를 구하기 위한 객체들
+    Calendar calendar = Calendar.getInstance();
     long now = System.currentTimeMillis();
     Date date = new Date(now);
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
-
-    // 날짜 선택을 위한 데이터 피커 리스너 설정
-    DatePickerDialog.OnDateSetListener datePicker = new DatePickerDialog.OnDateSetListener() {
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
+    // 날짜 선택을 위한 DatePicker 리스너
+    DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
             calendar.set(Calendar.YEAR,year);
             calendar.set(Calendar.MONTH,month);
             calendar.set(Calendar.DAY_OF_MONTH,dayOfMonth);
-            // 날짜 불러오기
             updateLabel();
         }
     };
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -119,12 +118,12 @@ public class PlanFragment extends Fragment implements View.OnClickListener{
         title = (EditText) rootView.findViewById(R.id.title);
         add_plan_item_btn = (Button) rootView.findViewById(R.id.add_plan_item_btn);
         save_plan_btn = (Button) rootView.findViewById(R.id.save_plan_btn);
-        // 텍스트뷰 현재 날짜 출력시키기
-        selectDate.setText(simpleDateFormat.format(date));
+        // 텍스트뷰 현재 날짜 지정
+        selectDate.setText(dateFormat.format(date));
+
         selectDate.setOnClickListener(this); // 텍스트뷰 클릭 이벤트 리스너 연동
         add_plan_item_btn.setOnClickListener(this);
         save_plan_btn.setOnClickListener(this);
-
         //roadPlanning(); // 계획 불러오기
         // 리사이클러뷰(카드뷰)에 데이터 바인딩
         recyclerView = rootView.findViewById(R.id.plan_RecyclearView);
@@ -137,17 +136,24 @@ public class PlanFragment extends Fragment implements View.OnClickListener{
         return rootView;
     }
 
-//    public static ArrayList<PlanningItemDTO> planItemGetInstance(){
-//        return planningItemDTO;
-//    }
+    // 데이터 피커 날짜 업데이트
+    private void updateLabel(){
+        String dateFormat = "yyyy년 MM월 dd일"; // 날짜 출력 형식 지정
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat, Locale.KOREA);
+        selectDate.setText(simpleDateFormat.format(calendar.getTime()));
+    }
 
     // 클릭 리스너
     @Override
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.selectDate: // 날짜 선택 TextView 클릭 시
-                new DatePickerDialog(getActivity(),datePicker, calendar.get(Calendar.YEAR),
-                        calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH)).show();
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),onDateSetListener, calendar.get(Calendar.YEAR),
+                        calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH));
+                // 데이터 피커 과거 날짜 선택 제한
+                datePickerDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
+                // 데이터 피커 출력
+                datePickerDialog.show();
                 break;
             case R.id.add_plan_item_btn: // 추가 버튼 클릭 시
                 planDialog = PlanDialog.getInstance();
@@ -208,12 +214,6 @@ public class PlanFragment extends Fragment implements View.OnClickListener{
         }
     }
 
-    // 데이터 피커 날짜 업데이트 - TextView 변경
-    private void updateLabel(){
-        String dateFormat = "yyyy년 MM월 dd일"; // 날짜 출력 형식 지정
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat, Locale.KOREA);
-        selectDate.setText(simpleDateFormat.format(calendar.getTime()));
-    }
 
     // 계획 불러오기
     private void roadPlanning(){

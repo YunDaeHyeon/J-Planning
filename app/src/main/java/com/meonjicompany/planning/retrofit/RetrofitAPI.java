@@ -1,5 +1,6 @@
 package com.meonjicompany.planning.retrofit;
 
+import com.meonjicompany.planning.DTO.PieceRoadDTO;
 import com.meonjicompany.planning.DTO.PlanPOJO;
 import com.meonjicompany.planning.DTO.PlanRoadDTO;
 
@@ -37,4 +38,7 @@ public interface RetrofitAPI {
     @GET("/user/roadPlan")
     Call<List<PlanRoadDTO>> roadPlan(@Query("user_id") int userId);
 
+    // 서버(piece 테이블)에서 상세 계획 불러오기 (아이디, 시간, 내용)
+    @GET("/user/roadPiece")
+    Call<List<PieceRoadDTO>> roadPiece(@Query("plan_id") int planId);
 }
